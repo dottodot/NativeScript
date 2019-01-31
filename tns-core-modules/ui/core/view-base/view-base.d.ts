@@ -77,9 +77,9 @@ export interface ShowModalOptions {
      */
     ios?: {
         /**
-         * The UIModalPresentationStyle to be used when showing the dialog in iOS .
+         * An optional parameter specifying whether to show the modal view in full-screen mode.
          */
-        presentationStyle: any /* UIModalPresentationStyle */
+        popover?: boolean;
     }
     android?: {
         /**

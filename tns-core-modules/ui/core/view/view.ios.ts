@@ -406,22 +406,16 @@ export class View extends ViewCommon {
 
         if (options.fullscreen) {
             controller.modalPresentationStyle = UIModalPresentationStyle.FullScreen;
+        } else if (options.ios && options.ios.popover) {
+            controller.modalPresentationStyle = UIModalPresentationStyle.Popover;
+            const popoverPresentationController = controller.popoverPresentationController;
+            const view = parent.nativeViewProtected;
+            // Note: sourceView and sourceRect are needed to specify the anchor location for the popover.
+            // Note: sourceView should be the button triggering the modal. If it the Page the popover might appear "behind" the page content
+            popoverPresentationController.sourceView = view;
+            popoverPresentationController.sourceRect = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
         } else {
             controller.modalPresentationStyle = UIModalPresentationStyle.FormSheet;
-        }
-
-        if (options.ios && options.ios.presentationStyle) {
-            const presentationStyle = options.ios.presentationStyle;
-            controller.modalPresentationStyle = presentationStyle;
-
-            if (presentationStyle === UIModalPresentationStyle.Popover) {
-                const popoverPresentationController = controller.popoverPresentationController;
-                const view = parent.nativeViewProtected;
-                // Note: sourceView and sourceRect are needed to specify the anchor location for the popover.
-                // Note: sourceView should be the button triggering the modal. If it the Page the popover might appear "behind" the page content
-                popoverPresentationController.sourceView = view;
-                popoverPresentationController.sourceRect = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
-            }
         }
 
         this.horizontalAlignment = "stretch";
